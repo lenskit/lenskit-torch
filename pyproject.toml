@@ -1,0 +1,64 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "lenskit-torch"
+authors = [
+    { name = "Michael Ekstrand", email = "michaelekstrand@boisestate.edu" }
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+]
+readme = "README.md"
+license = { file="LICENSE.md" }
+requires-python = ">= 3.8"
+dependencies = [
+    "lenskit ==0.14.*",
+    "torch >=1.8,<2"
+]
+dynamic = ["description", "version"]
+
+[project.urls]
+homepage = "https://lkpy.lenskit.org/projects/torch"
+GitHub = "https://github.com/lenskit/lenskit-torch"
+
+[project.optional-dependencies]
+test = [
+    "pytest >= 6",
+    "pytest-doctestplus >= 0.9",
+]
+dev = [
+    "lenskit-build-helpers >=0.1",
+    "flit >= 3.2",
+    "flake8 >= 3",
+    "coverage >= 5",
+    "pytest-cov >= 2.12",
+]
+
+[tool.flit.module]
+name = "lktorch"
+
+[tool.flit.sdist]
+exclude = [
+    ".github",
+    "*.ipynb",
+    "docs",
+    "data",
+    "examples",
+    "lkbuild",
+    "tests",
+]
+
+[tool.conda-lock]
+channels = [
+    "pytorch",
+    "conda-forge",
+    "lenskit",
+]

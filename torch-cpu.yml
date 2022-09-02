@@ -1,0 +1,5 @@
+# channels:
+# - pytorch
+dependencies:
+- pytorch>=1.8
+- pytorch-mutex==*=cpu

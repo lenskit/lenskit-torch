@@ -1,0 +1,11 @@
+dist/
+build/
+*.egg-info/
+.vscode/*
+__pycache__/
+.hypothesis/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.lock
+*.lock.yml

@@ -1,0 +1,4 @@
+channels:
+- conda-forge
+dependencies:
+- pytorch=1.8.*-cuda
