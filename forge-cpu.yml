@@ -1,4 +1,5 @@
 channels:
 - conda-forge
+- lenskit
 dependencies:
 - pytorch=1.8.*-cpu
