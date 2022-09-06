@@ -52,3 +52,18 @@ def test_batch_rows(nrows, batch_size):
     assert len(arr) == nrows
     assert arr[0] == 0
     assert arr[-1] == nrows - 1
+
+@given(st.integers(1, 10000), st.integers(1, 5000))
+def test_batch_iter(nrows, batch_size):
+    "Test that we can iterate batch rows"
+    rbs = RowBatcher(nrows, batch_size, numpy_rng())
+
+    arrs = []
+    for batch in rbs:
+        arrs.append(batch)
+
+    arr = np.concatenate(arrs)
+    arr = np.unique(arr)
+    assert len(arr) == nrows
+    assert arr[0] == 0
+    assert arr[-1] == nrows - 1

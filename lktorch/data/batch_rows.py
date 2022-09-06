@@ -60,3 +60,7 @@ class RowBatcher:
         """
         _log.info('re-shuffling %d rows', self.nrows)
         self.rng.shuffle(self.permutation)
+
+    def __iter__(self):
+        for i in range(self.batch_count):
+            yield self.batch(i)
