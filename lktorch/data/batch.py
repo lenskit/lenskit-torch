@@ -58,7 +58,7 @@ class RowBatcher:
         Re-shuffle the row permutation for the next iteration through the batches.
         """
         _log.info('re-shuffling %d rows', self.nrows)
-        self.rng.shuffle(self.permutation)
+        self._rng.shuffle(self.permutation)
 
     def __iter__(self):
         for i in range(self.batch_count):
@@ -66,9 +66,9 @@ class RowBatcher:
 
 
 class BatchSampler:
-    def __init__(self, data, nrows, batch_size, rng=None):
+    def __init__(self, data, batch_size, rng=None):
         rng = seedbank.numpy_rng(rng)
-        self.batches = RowBatcher(nrows, batch_size, rng)
+        self.batches = RowBatcher(data.n_samples, batch_size, rng)
         self.data = data
 
     @property

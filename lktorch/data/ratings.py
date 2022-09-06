@@ -39,7 +39,7 @@ class RatingData:
 
     r_users: NDArray[np.int32]
     r_items: NDArray[np.int32]
-    r_vals: NDArray[np.float32]
+    r_values: NDArray[np.float32]
 
     @classmethod
     def from_ratings(cls, ratings):
