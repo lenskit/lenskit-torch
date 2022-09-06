@@ -2,7 +2,7 @@
 Test the row-batch capabilities.
 """
 
-from lktorch.data.batch_rows import RowBatcher
+from lktorch.data.batch import RowBatcher
 
 from hypothesis import given
 from hypothesis import strategies as st

@@ -3,6 +3,7 @@ from pytest import fixture
 import seedbank
 
 _log = logging.getLogger('lenskit.tests')
+logging.getLogger('numba').setLevel(logging.INFO)
 
 
 @fixture(autouse=True)

@@ -5,8 +5,7 @@ Support for managing batches of rows, permuting and iterating them.
 import logging
 import numpy as np
 import math
-
-import torch
+import seedbank
 
 _log = logging.getLogger(__name__)
 
@@ -60,6 +59,32 @@ class RowBatcher:
         """
         _log.info('re-shuffling %d rows', self.nrows)
         self.rng.shuffle(self.permutation)
+
+    def __iter__(self):
+        for i in range(self.batch_count):
+            yield self.batch(i)
+
+
+class BatchSampler:
+    def __init__(self, data, nrows, batch_size, rng=None):
+        rng = seedbank.numpy_rng(rng)
+        self.batches = RowBatcher(nrows, batch_size, rng)
+        self.data = data
+
+    @property
+    def batch_count(self):
+        return self.batches.batch_count
+
+    def batch(self, idx):
+        "Get a specific batch."
+        rows = self.batches.batch(idx)
+        return self.data.batch_from_rows(rows)
+
+    def shuffle(self):
+        """
+        Re-shuffle the data.
+        """
+        self.batches.shuffle()
 
     def __iter__(self):
         for i in range(self.batch_count):
