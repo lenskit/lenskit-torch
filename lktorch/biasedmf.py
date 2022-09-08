@@ -19,6 +19,8 @@ from lktorch.util import torch_dot
 from lktorch.data.batch import BatchSampler
 from lktorch.data.ratings import RatingData
 
+from tqdm.auto import tqdm
+
 _log = logging.getLogger(__name__)
 
 
@@ -141,7 +143,7 @@ class TorchBiasedMF(Predictor):
 
         # now __model has the trainable model
         batches = BatchSampler(data, self.batch_size, self.rng_spec)
-        for epoch in range(self.epochs):
+        for epoch in tqdm(range(self.epochs), 'epoch', leave=False):
             _log.info('[%s] beginning epoch %d', timer, epoch + 1)
 
             batches.shuffle()
@@ -183,8 +185,8 @@ class TorchBiasedMF(Predictor):
         Run one iteration of the recommender training.
         """
 
-        # loop = tqdm(range(self._data.batch_count)) # progress bar in var so we can modify
-        for i in range(batches.batch_count):
+        loop = tqdm(range(batches.batch_count), leave=False)
+        for i in loop:
             batch = batches.batch(i).to(self._train_dev)
             uv, iv, rv = batch
 
@@ -197,11 +199,11 @@ class TorchBiasedMF(Predictor):
             pred_loss.backward()
             self._opt.step()
 
-            # loop.set_postfix_str('loss: {:.3f}'.format(pred_loss.item()))
+            loop.set_postfix_str('loss: {:.3f}'.format(pred_loss.item()))
 
             _log.debug('batch %d has loss %s', i, pred_loss.item())
 
-        # loop.clear()
+        loop.clear()
 
     def predict_for_user(self, user, items, ratings=None):
         """

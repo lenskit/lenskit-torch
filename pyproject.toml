@@ -33,6 +33,7 @@ GitHub = "https://github.com/lenskit/lenskit-torch"
 test = [
     "pytest >= 6",
     "pytest-doctestplus >= 0.9",
+    "hypothesis >= 6.47",
 ]
 dev = [
     "lenskit-build-helpers >=0.1",
@@ -40,7 +41,10 @@ dev = [
     "flake8 >= 3",
     "coverage >= 5",
     "pytest-cov >= 2.12",
-    "hypothesis >= 6.47",
+    "notebook >=6",
+    "jupytext",
+    "ipywidgets >=8",
+    "pyarrow >=9",
 ]
 
 [tool.flit.module]
