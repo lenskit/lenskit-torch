@@ -41,10 +41,13 @@ dev = [
     "flake8 >= 3",
     "coverage >= 5",
     "pytest-cov >= 2.12",
+]
+demo = [
     "notebook >=6",
     "jupytext",
     "ipywidgets >=8",
     "pyarrow >=9",
+    "seaborn >=0.11,<0.12",
 ]
 
 [tool.flit.module]

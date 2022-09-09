@@ -10,3 +10,5 @@ __pycache__/
 *.lock
 *.lock.yml
 /data/
+/DataPrep.ipynb
+/ExplicitDemo.ipynb
