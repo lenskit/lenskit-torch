@@ -40,9 +40,6 @@ class MFNet(nn.Module):
         self.n_users = n_users
         self.n_items = n_items
 
-        # global bias term
-        self.g_bias = nn.Parameter(torch.as_tensor(0.0))
-
         # user and item bias terms
         self.u_bias = nn.Embedding(n_users, 1)
         self.i_bias = nn.Embedding(n_items, 1)
@@ -77,7 +74,7 @@ class MFNet(nn.Module):
         ivec = self.i_embed(item)
 
         # compute the inner score
-        score = self.g_bias + ub + ib + torch_dot(uvec, ivec)
+        score = ub + ib + torch_dot(uvec, ivec)
 
         # we're done
         assert score.shape == user.shape
@@ -139,7 +136,8 @@ class TorchBiasedMF(Predictor):
         self._prepare_model(dev)
 
         # initialize model to global mean
-        self._model.g_bias.data = torch.as_tensor(np.mean(data.r_values))
+        self.mean_ = np.mean(data.r_values)
+        data.r_values -= self.mean_
 
         # now __model has the trainable model
         batches = BatchSampler(data, self.batch_size, self.rng_spec)
@@ -151,8 +149,8 @@ class TorchBiasedMF(Predictor):
 
             unorm = torch.linalg.norm(self._model.u_embed.weight.data).item()
             inorm = torch.linalg.norm(self._model.i_embed.weight.data).item()
-            _log.info('[%s] epoch %d finished (|P|=%.3f, |Q|=%.3f, b=%.3f)',
-                      timer, epoch + 1, unorm, inorm, self._model.g_bias.data.item())
+            _log.info('[%s] epoch %d finished (|P|=%.3f, |Q|=%.3f)',
+                      timer, epoch + 1, unorm, inorm)
 
         _log.info('finished training')
         self._finalize()
@@ -237,7 +235,7 @@ class TorchBiasedMF(Predictor):
             scores = self._model(u_tensor, i_tensor).to('cpu')
 
         # and we can finally put in a series to return
-        results = pd.Series(scores, index=scorable)
+        results = pd.Series(scores + self.mean_, index=scorable)
         return results.reindex(items)  # fill in missing values with nan
 
     def __str__(self):
