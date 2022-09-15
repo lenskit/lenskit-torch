@@ -169,7 +169,7 @@ rmse(als_preds['prediction'], als_preds['rating'])
 ### Biased MF
 
 ```{code-cell} ipython3
-tmf = TorchBiasedMF(25, epochs=10)
+tmf = TorchBiasedMF(25, epochs=5, batch_size=4096)
 tmf.fit(train_20m)
 ```
 
