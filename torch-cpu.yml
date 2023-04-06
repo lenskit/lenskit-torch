@@ -3,4 +3,5 @@ channels:
 - conda-forge
 - lenskit
 dependencies:
-- pytorch-mutex==*=cpu
+- pytorch=2
+- pytorch-mutex=*=cpu
