@@ -21,7 +21,7 @@ license = { file="LICENSE.md" }
 requires-python = ">= 3.8"
 dependencies = [
     "lenskit ==0.14.*",
-    "torch >=1.8,<2"
+    "torch ==2.*",
 ]
 dynamic = ["description", "version"]
 
