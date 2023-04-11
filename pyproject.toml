@@ -21,6 +21,7 @@ license = { file="LICENSE.md" }
 requires-python = ">= 3.8"
 dependencies = [
     "lenskit ==0.14.*",
+    "numba >=0.56",
     "torch ==2.*",
 ]
 dynamic = ["description", "version"]
@@ -36,7 +37,7 @@ test = [
     "hypothesis >= 6.47",
 ]
 dev = [
-    "lenskit-build-helpers >=0.1",
+    "lenskit-build-helpers >=0.2",
     "flit >= 3.2",
     "flake8 >= 3",
     "coverage >= 5",

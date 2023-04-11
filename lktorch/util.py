@@ -1,4 +1,6 @@
 import torch
+from numba import njit
+
 
 def torch_dot(x, y):
     """

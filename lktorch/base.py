@@ -16,7 +16,7 @@ class LKTorchBase(Algorithm):
 
     _configured_device = None
     _current_device = None
-    _model: torch.Module = None
+    _model: torch.nn.Module = None
 
     def __init__(self, *, device):
         self._configured_device = device
