@@ -9,7 +9,6 @@ from csr import CSR
 from seedbank import numpy_rng
 
 
-# @njit
 def _sample_uniform(rng: np.random.Generator, mat: CSR, n):
     """
     Candidate sampling function for use with :py:func:`neg_sample`.
@@ -19,7 +18,6 @@ def _sample_uniform(rng: np.random.Generator, mat: CSR, n):
     return rng.integers(0, mat.ncols, n)
 
 
-# @njit
 def _sample_pop(rng: np.random.Generator, mat: CSR, n):
     """
     Candidate sampling function for use with :py:func:`neg_sample`.
@@ -35,23 +33,6 @@ def _sample_pop(rng: np.random.Generator, mat: CSR, n):
     cols[mask] = mat.colinds[j[mask]]
     return cols
 
-
-# @njit(nogil=True)
-# def _neg_sample(rng: np.random.Generator, mat: CSR, uv, sample):
-#     n = len(uv)
-#     jv = np.empty(n, dtype=np.int32)
-#     sc = np.ones(n, dtype=np.int32)
-
-#     for i in range(n):
-#         u = uv[i]
-#         used = mat.row_cs(u)
-#         j = sample(rng, mat)
-#         while np.any(used == j):
-#             j = sample(rng, mat)
-#             sc[i] = sc[i] + 1
-#         jv[i] = j
-
-#     return jv, sc
 
 @njit
 def _ui_mask(mat: CSR, uv):
