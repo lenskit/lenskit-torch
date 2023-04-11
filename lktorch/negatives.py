@@ -51,8 +51,9 @@ def _sample_pop(rng: np.random.Generator, mat: CSR, n):
 def _ui_mask(mat: CSR, uv):
     n = len(uv)
     mask = np.zeros((n, mat.ncols), np.bool_)
-    for u in uv:
-        mask[mat.row_cs(u)] = True
+    for r, u in enumerate(uv):
+        for c in mat.row_cs(u):
+            mask[r, c] = True
     return mask
 
 
@@ -103,7 +104,6 @@ class NegSampler:
         total_bad = nbad
         while nbad:
             # we need to re-sample bad items
-            print('bad: %d / %d' % (nbad, n))
             js[bad] = self.sampler(self.rng, self.matrix, nbad)
             bad[bad] = mask[rows[bad], js[bad]]
             nbad = np.sum(bad)
